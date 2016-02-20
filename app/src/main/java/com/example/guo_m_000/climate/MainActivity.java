@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.climate.login.LoginButton;
+import com.mashape.unirest.http.Unirest;
 
 import org.json.JSONObject;
 
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLogin(JSONObject jsonObject) {
                 Log.d("login", "Logged in");
+
+                
             }
 
             @Override
