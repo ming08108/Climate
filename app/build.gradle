@@ -36,4 +36,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.climate.login:login:2@aar'
     compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.microsoft.azure:azure-mobile-android:3.0'
 }
