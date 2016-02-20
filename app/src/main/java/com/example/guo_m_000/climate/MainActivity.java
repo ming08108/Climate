@@ -1,31 +1,31 @@
 package com.example.guo_m_000.climate;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.climate.login.LoginButton;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-
 import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.Header;
+public class MainActivity extends Activity {
 
-public class MainActivity extends AppCompatActivity {
-
+    // References to HTTP Client object and TextView
     AsyncHttpClient client;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        client = new AsyncHttpClient(true, 80, 443);
+        title = (TextView) findViewById(R.id.title);
 
+        Typeface face = Typeface.createFromAsset(getAssets(), "font/Muro.otf");
+        title.setTypeface(face);
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.login);
         loginButton.setCredentials("dpitl9gm6s321m", "lcik8jaau3bimv6rhdllufv4qt");
@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("login", e.toString());
             }
         });
+
+
 
     }
 }
