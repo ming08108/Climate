@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/farmee_landing"
+    android:background="@drawable/farmee_landing2"
     tools:context="com.example.guo_m_000.climate.MainActivity">
 
     <com.climate.login.LoginButton
@@ -22,8 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textSize="35sp"
-        android:layout_marginTop="47dp"
+        android:textSize="70sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 

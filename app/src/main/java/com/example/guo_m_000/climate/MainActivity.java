@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 
         title = (TextView) findViewById(R.id.title);
 
-        Typeface face = Typeface.createFromAsset(getAssets(), "font/Muro.otf");
+        Typeface face = Typeface.createFromAsset(getAssets(), "font/DimboRegular.ttf");
         title.setTypeface(face);
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.login);
