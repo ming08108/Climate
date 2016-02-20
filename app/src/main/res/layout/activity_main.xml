@@ -7,29 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/farmee_landing2"
+    android:background="@drawable/farmee_landing3"
     tools:context="com.example.guo_m_000.climate.MainActivity">
-
-    <com.climate.login.LoginButton
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_alignLeft="@+id/food_bank_button"
-        android:layout_alignStart="@+id/food_bank_button"
-        android:layout_marginTop="191dp" />
-
-    <ImageButton
-        android:id="@+id/food_bank_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="0dp"
-        android:src="@drawable/loginbutton_foodbank"
-        android:onClick="onClickFarmerLogin"
-        android:layout_below="@+id/login"
-        android:layout_alignLeft="@+id/title"
-        android:layout_alignStart="@+id/title"
-        android:layout_marginTop="54dp" />
 
     <TextView
         android:id="@+id/title"
@@ -39,5 +18,38 @@
         android:textSize="70sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <com.climate.login.LoginButton
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:src="@drawable/loginbutton_farmer"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginTop="134dp" />
+
+    <ImageButton
+        android:id="@+id/farmer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:onClick="onClickFarmerLogin"
+        android:src="@drawable/loginbutton_farmer"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="134dp" />
+
+    <ImageButton
+        android:id="@+id/food_bank_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:src="@drawable/loginbutton_foodbank"
+        android:onClick="onClickFoodBankLogin"
+        android:layout_below="@+id/farmer_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
 
 </RelativeLayout>

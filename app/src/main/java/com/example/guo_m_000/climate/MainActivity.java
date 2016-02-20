@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.climate.login.LoginButton;
@@ -49,9 +50,14 @@ public class MainActivity extends Activity {
 
     }
 
-    public void onClickFarmerLogin(View view)
+    public void onClickFoodBankLogin(View view)
     {
         Intent intent = new Intent(this, FoodBankActivity.class);
         startActivity(intent);
+    }
+    public void onClickFarmerLogin(View view)
+    {
+        Button realLoginButton = (Button) findViewById(R.id.login);
+        realLoginButton.performClick();
     }
 }
