@@ -14,8 +14,22 @@
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@+id/title"
+        android:layout_alignLeft="@+id/food_bank_button"
+        android:layout_alignStart="@+id/food_bank_button"
+        android:layout_marginTop="191dp" />
+
+    <ImageButton
+        android:id="@+id/food_bank_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:src="@drawable/loginbutton_foodbank"
+        android:onClick="onClickFarmerLogin"
+        android:layout_below="@+id/login"
+        android:layout_alignLeft="@+id/title"
+        android:layout_alignStart="@+id/title"
+        android:layout_marginTop="54dp" />
 
     <TextView
         android:id="@+id/title"

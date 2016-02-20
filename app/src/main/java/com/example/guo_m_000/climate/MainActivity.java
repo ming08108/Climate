@@ -2,9 +2,11 @@ package com.example.guo_m_000.climate;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.climate.login.LoginButton;
@@ -45,5 +47,11 @@ public class MainActivity extends Activity {
 
 
 
+    }
+
+    public void onClickFarmerLogin(View view)
+    {
+        Intent intent = new Intent(this, FoodBankActivity.class);
+        startActivity(intent);
     }
 }
