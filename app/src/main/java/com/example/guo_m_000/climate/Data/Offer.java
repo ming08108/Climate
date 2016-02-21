@@ -15,4 +15,5 @@ public class Offer {
     public String lon;
 
     public String email;
+
 }

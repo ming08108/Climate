@@ -90,6 +90,13 @@ public class FoodBankActivity extends AppCompatActivity {
             }
         });
 
+        //populate the listview
+        updateTable(listView, lastKnownLocation);
+
+    }
+
+
+    public void updateTable(final ListView listView, final Location lastKnownLocation){
         mOfferTable = mClient.getTable(Offer.class);
         try {
             mOfferTable.execute(new TableQueryCallback<Offer>() {
@@ -102,7 +109,6 @@ public class FoodBankActivity extends AppCompatActivity {
         } catch (MobileServiceException e) {
             e.printStackTrace();
         }
-
 
     }
 
