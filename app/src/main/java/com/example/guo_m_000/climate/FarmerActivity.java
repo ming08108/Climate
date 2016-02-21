@@ -2,6 +2,8 @@ package com.example.guo_m_000.climate;
 
 // remove v7 dependencies
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +41,10 @@ public class FarmerActivity extends Activity {
             {
                 case R.id.create_request:
                     Log.d("warning", "Correct initialization");
-                    Intent intent = new Intent(FarmerActivity.this, PopUpActivity.class);
+                   // Intent intent = new Intent(FarmerActivity.this, PopUpActivity.class);
+                    FragmentManager manager = getFragmentManager();
+                    PopUpFragment popUpFragment = new PopUpFragment();
+                    popUpFragment.show(manager, "Test");
                 default:
                     Log.d("error", "Action bar items not being handled");
             }
