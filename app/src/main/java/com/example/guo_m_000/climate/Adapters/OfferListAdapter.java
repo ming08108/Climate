@@ -2,6 +2,8 @@ package com.example.guo_m_000.climate.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +25,13 @@ public class OfferListAdapter extends BaseAdapter{
     private List<Offer> mList;
     private LayoutInflater mLayoutInflater = null;
 
-    public OfferListAdapter(Context context, List<Offer> list){
+    Location currentLoc;
+
+    public OfferListAdapter(Context context, List<Offer> list, Location loc){
         mContext = context;
         mList = list;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        currentLoc = loc;
     }
 
     public void updateList(List<Offer> list){
@@ -59,12 +63,18 @@ public class OfferListAdapter extends BaseAdapter{
         }
 
         TextView foodType = (TextView)v.findViewById(R.id.foodType);
-
+        TextView distance = (TextView)v.findViewById(R.id.distance);
 
         Offer offer = (Offer)getItem(position);
+        Location loc = new Location("backend");
+        loc.setLatitude(Double.valueOf(offer.lat));
+        loc.setLongitude(Double.valueOf(offer.lon));
+
+        distance.setText(loc.distanceTo(currentLoc) + " m");
+        Log.d("loc", loc.distanceTo(currentLoc) + " m");
+
         foodType.setText(offer.foodTypes);
 
         return v;
-
     }
 }
