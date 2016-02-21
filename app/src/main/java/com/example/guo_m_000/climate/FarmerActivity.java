@@ -6,24 +6,30 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.guo_m_000.climate.Data.Offer;
 import com.example.guo_m_000.climate.R;
 
-public class FarmerActivity extends Activity {
+public class FarmerActivity extends AppCompatActivity {
 
+    String authToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer);
+        Log.d("error", "got here1");
+        authToken = getIntent().getStringExtra("sesh");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.menu_farmer, menu);
+        Log.d("error", "got here2");
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -33,6 +39,7 @@ public class FarmerActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Log.d("error", "got here3");
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.create_request)
@@ -44,6 +51,9 @@ public class FarmerActivity extends Activity {
                    // Intent intent = new Intent(FarmerActivity.this, PopUpActivity.class);
                     FragmentManager manager = getFragmentManager();
                     PopUpFragment popUpFragment = new PopUpFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("auth", authToken);
+                    popUpFragment.setArguments(bundle);
                     popUpFragment.show(manager, "Test");
                 default:
                     Log.d("error", "Action bar items not being handled");
