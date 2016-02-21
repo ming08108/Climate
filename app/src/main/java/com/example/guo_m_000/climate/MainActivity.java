@@ -1,6 +1,5 @@
 package com.example.guo_m_000.climate;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -21,7 +20,7 @@ public class MainActivity extends Activity {
     TextView title;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -38,6 +37,10 @@ public class MainActivity extends Activity {
             public void onLogin(JSONObject session) {
                 Log.d("login", "Logged in");
                 Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_SHORT).show();
+                String sesh = "Bearer " + session.opt("access_token");
+                Intent intent = new Intent(getApplicationContext(), FarmerActivity.class);
+                intent.putExtra("sesh", sesh);
+                startActivity(intent);
             }
 
             @Override

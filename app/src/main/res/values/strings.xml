@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Farmee</string>
+    <string name="title_activity_farmer">FarmerActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="request_button_string">Create Request</string>
+    <string name="title_activity_pop_up">PopUpActivity</string>
 </resources>
