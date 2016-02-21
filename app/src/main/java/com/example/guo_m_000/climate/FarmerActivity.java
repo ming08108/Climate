@@ -70,7 +70,7 @@ public class FarmerActivity extends AppCompatActivity {
                     Log.d("error", "Action bar items not being handled");
             }
             return true;
-    
+
     }
 
 }

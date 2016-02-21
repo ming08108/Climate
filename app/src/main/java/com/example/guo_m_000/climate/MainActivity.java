@@ -54,15 +54,16 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_SHORT).show();
                 sesh = "Bearer " + session.opt("access_token");
 
+                String email = "";
                 try {
-                    String email = session.getJSONObject("user").getString("email");
+                    email = session.getJSONObject("user").getString("email");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 SharedPreferences sharedPref = MainActivity.this.getSharedPreferences(MainActivity.SHARED, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("auth", sesh);
-                editor.putString("email", sesh);
+                editor.putString("email", email);
                 editor.commit();
 
                 Intent intent = new Intent(getApplicationContext(), FarmerActivity.class);
