@@ -29,6 +29,11 @@
             android:name=".PopUpActivity"
             android:label="@string/title_activity_pop_up" >
         </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAtnjVYWdhQB7VZ1FFvjvJSmpLm9GYp03U" />
+
     </application>
 
 </manifest>
