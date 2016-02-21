@@ -34,6 +34,13 @@ public class OfferListAdapter extends BaseAdapter{
         currentLoc = loc;
     }
 
+    public OfferListAdapter(Context context, List<Offer> list){
+        mContext = context;
+        mList = list;
+        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        currentLoc = null;
+    }
+
     public void updateList(List<Offer> list){
         mList = list;
         notifyDataSetChanged();
@@ -66,15 +73,20 @@ public class OfferListAdapter extends BaseAdapter{
         TextView distance = (TextView)v.findViewById(R.id.distance);
 
         Offer offer = (Offer)getItem(position);
-        Location loc = new Location("backend");
-        loc.setLatitude(Double.valueOf(offer.lat));
-        loc.setLongitude(Double.valueOf(offer.lon));
 
-        distance.setText(loc.distanceTo(currentLoc) + " m");
-        Log.d("loc", loc.distanceTo(currentLoc) + " m");
+        if(!(currentLoc == null)) {
+            Location loc = new Location("backend");
+            loc.setLatitude(Double.valueOf(offer.lat));
+            loc.setLongitude(Double.valueOf(offer.lon));
+
+
+            distance.setText(loc.distanceTo(currentLoc) + " m");
+            Log.d("loc", loc.distanceTo(currentLoc) + " m");
+
+        }
+
 
         foodType.setText(offer.foodTypes);
-
         return v;
     }
 }

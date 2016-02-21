@@ -12,11 +12,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import com.example.guo_m_000.climate.Adapters.OfferListAdapter;
 import com.example.guo_m_000.climate.Data.Offer;
 import com.example.guo_m_000.climate.R;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
+
+import java.net.MalformedURLException;
+import java.util.List;
 
 public class FarmerActivity extends AppCompatActivity {
+
+    private MobileServiceClient mClient;
+
+    MobileServiceTable<Offer> mOfferTable;
+
+    Context mContext;
 
     String authToken;
     @Override
@@ -25,6 +40,38 @@ public class FarmerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_farmer);
         Log.d("error", "got here1");
         authToken = getIntent().getStringExtra("sesh");
+
+        mContext = this;
+        try {
+            mClient = new MobileServiceClient(
+                    "https://farmee.azurewebsites.net",
+                    this
+            );
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        mOfferTable = mClient.getTable(Offer.class);
+
+        final ListView listView = (ListView)findViewById(R.id.listView);
+
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(MainActivity.SHARED, MODE_PRIVATE);
+        String email = sharedPref.getString("email", "");
+
+        mOfferTable.where().field("email").eq(email).execute(new TableQueryCallback<Offer>() {
+            @Override
+            public void onCompleted(List<Offer> result, int count, Exception exception, ServiceFilterResponse response) {
+                if(exception == null) {
+                    OfferListAdapter adapter = new OfferListAdapter(mContext, result);
+                    listView.setAdapter(adapter);
+                }
+                else{
+                    Log.d("azure", exception.toString());
+                }
+            }
+        });
+
+
     }
 
     @Override
