@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +26,8 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -75,7 +79,7 @@ public class FoodBankActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Offer offer = (Offer)listView.getAdapter().getItem(position);
+                final Offer offer = (Offer) listView.getAdapter().getItem(position);
 
                 AlertDialog alertDialog = new AlertDialog.Builder(FoodBankActivity.this).create();
                 alertDialog.setTitle("Contact Info");
@@ -84,6 +88,15 @@ public class FoodBankActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Call",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Intent.ACTION_DIAL);
+                                intent.setData(Uri.parse("tel:" + offer.phone));
+                                startActivity(intent);
                             }
                         });
                 alertDialog.show();
