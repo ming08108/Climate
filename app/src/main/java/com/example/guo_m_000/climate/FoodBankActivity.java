@@ -26,6 +26,8 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -77,7 +79,7 @@ public class FoodBankActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Offer offer = (Offer)listView.getAdapter().getItem(position);
+                final Offer offer = (Offer) listView.getAdapter().getItem(position);
 
                 AlertDialog alertDialog = new AlertDialog.Builder(FoodBankActivity.this).create();
                 alertDialog.setTitle("Contact Info");
@@ -89,11 +91,11 @@ public class FoodBankActivity extends AppCompatActivity {
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Call",
-                        new DialogInterface.OnClickListener(){
+                        new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent =  new Intent(Intent.ACTION_DIAL);
-                                intent.setData(Uri.parse("tel:"+ offer.phone));
+                                Intent intent = new Intent(Intent.ACTION_DIAL);
+                                intent.setData(Uri.parse("tel:" + offer.phone));
                                 startActivity(intent);
                             }
                         });
