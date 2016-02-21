@@ -4,7 +4,9 @@ package com.example.guo_m_000.climate;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -41,9 +43,6 @@ public class FarmerActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d("error", "got here3");
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.create_request)
-        {
             switch(id)
             {
                 case R.id.create_request:
@@ -59,13 +58,19 @@ public class FarmerActivity extends AppCompatActivity {
                     Intent intent = new Intent(FarmerActivity.this, PopUpActivity.class);
                     intent.putExtra("auth", authToken);
                     startActivity(intent);
+                    break;
+                case R.id.logout:
+                    SharedPreferences sharedPref = FarmerActivity.this.getSharedPreferences(MainActivity.SHARED, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("auth", "");
+                    editor.commit();
+                    finish();
+                    break;
                 default:
                     Log.d("error", "Action bar items not being handled");
             }
             return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    
     }
 
 }

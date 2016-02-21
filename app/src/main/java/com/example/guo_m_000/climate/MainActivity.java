@@ -1,7 +1,9 @@
 package com.example.guo_m_000.climate;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.climate.login.LoginButton;
 import com.loopj.android.http.AsyncHttpClient;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends Activity {
@@ -19,12 +23,20 @@ public class MainActivity extends Activity {
     AsyncHttpClient client;
     TextView title;
 
+    final static String SHARED = "PREFSKEY";
+
+    SharedPreferences sharedPref;
+
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         title = (TextView) findViewById(R.id.title);
+
+        sharedPref = this.getSharedPreferences(MainActivity.SHARED, Context.MODE_PRIVATE);
+
 
         Typeface face = Typeface.createFromAsset(getAssets(), "font/DimboRegular.ttf");
         title.setTypeface(face);
@@ -35,9 +47,24 @@ public class MainActivity extends Activity {
         loginButton.registerListener(new LoginButton.LoginListener() {
             @Override
             public void onLogin(JSONObject session) {
+
+                String sesh;
+
                 Log.d("login", "Logged in");
                 Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_SHORT).show();
-                String sesh = "Bearer " + session.opt("access_token");
+                sesh = "Bearer " + session.opt("access_token");
+
+                try {
+                    String email = session.getJSONObject("user").getString("email");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                SharedPreferences sharedPref = MainActivity.this.getSharedPreferences(MainActivity.SHARED, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("auth", sesh);
+                editor.putString("email", sesh);
+                editor.commit();
+
                 Intent intent = new Intent(getApplicationContext(), FarmerActivity.class);
                 intent.putExtra("sesh", sesh);
                 startActivity(intent);
@@ -60,7 +87,17 @@ public class MainActivity extends Activity {
     }
     public void onClickFarmerLogin(View view)
     {
-        Button realLoginButton = (Button) findViewById(R.id.login);
-        realLoginButton.performClick();
+        String sesh = sharedPref.getString("auth", "");
+
+        if(sesh.equals("")) {
+            Button realLoginButton = (Button) findViewById(R.id.login);
+            realLoginButton.performClick();
+        }
+        else{
+            Intent intent = new Intent(getApplicationContext(), FarmerActivity.class);
+            intent.putExtra("sesh", sesh);
+            startActivity(intent);
+        }
+
     }
 }

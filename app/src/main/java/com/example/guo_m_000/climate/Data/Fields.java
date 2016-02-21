@@ -13,10 +13,10 @@ public class Fields {
 
     public class Field{
         public String name;
-        Centroid centroid;
+        public Centroid centroid;
     }
 
     public class Centroid{
-        double[] coordinates;
+        public double[] coordinates;
     }
 }
