@@ -20,6 +20,13 @@ import android.widget.Toast;
 
 import com.example.guo_m_000.climate.Adapters.OfferListAdapter;
 import com.example.guo_m_000.climate.Data.Offer;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
@@ -36,6 +43,8 @@ import java.util.concurrent.ExecutionException;
 
 public class FoodBankActivity extends AppCompatActivity {
 
+    private GoogleMap map;
+
     private MobileServiceClient mClient;
 
     MobileServiceTable<Offer> mOfferTable;
@@ -47,6 +56,10 @@ public class FoodBankActivity extends AppCompatActivity {
         mContext = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_bank);
+
+        // Map fragment
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+                .getMap();
 
         String locationProvider = LocationManager.NETWORK_PROVIDER;
         // Or use LocationManager.GPS_PROVIDER
@@ -80,6 +93,12 @@ public class FoodBankActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Offer offer = (Offer) listView.getAdapter().getItem(position);
+
+                // Snap camera to offer location
+                double lat = Double.parseDouble(offer.lat),
+                        lon = Double.parseDouble(offer.lon);
+                LatLng fmarker = new LatLng(lat, lon);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(fmarker, 13.5f));
 
                 AlertDialog alertDialog = new AlertDialog.Builder(FoodBankActivity.this).create();
                 alertDialog.setTitle("Contact Info");
@@ -117,11 +136,39 @@ public class FoodBankActivity extends AppCompatActivity {
                 public void onCompleted(List<Offer> result, int count, Exception exception, ServiceFilterResponse response) {
                     OfferListAdapter adapter = new OfferListAdapter(mContext, result, lastKnownLocation);
                     listView.setAdapter(adapter);
+                    updateMap(result, lastKnownLocation);
                 }
             });
         } catch (MobileServiceException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void updateMap(List<Offer> result, Location loc) {
+
+        // Set markers
+        LatLng fmarker;
+        for (Offer current : result) {
+            double lat = Double.parseDouble(current.lat),
+                   lon = Double.parseDouble(current.lon);
+
+            fmarker = new LatLng(lat, lon);
+            map.addMarker(new MarkerOptions()
+                    .position(fmarker)
+                    .title(current.phone)
+                    .snippet(current.email)
+                    .icon(BitmapDescriptorFactory.defaultMarker((float) Math.random() * 360)));
+        }
+
+        // Zoom to last known location
+        fmarker = new LatLng(loc.getLatitude(), loc.getLongitude());
+        map.addMarker(new MarkerOptions()
+                .position(fmarker)
+                .title("Current location")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_button)));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(fmarker, 1));
+        map.animateCamera(CameraUpdateFactory.zoomTo(9.2f), 2000, null);
 
     }
 
