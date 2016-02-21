@@ -28,10 +28,6 @@ public class PopUpFragment extends DialogFragment{
         // Required empty public constructor
     }
 
-    public static PopUpFragment newInstance(String authKey){
-
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +52,6 @@ public class PopUpFragment extends DialogFragment{
         Button next;
 
         OkHttpClient client = new OkHttpClient();
-        client.newCall(ClimateApiHelper.getFields());
 
         View root = inflater.inflate(R.layout.fragment_pop_up, container, false);
 

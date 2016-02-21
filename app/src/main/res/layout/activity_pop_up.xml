@@ -2,10 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.guo_m_000.climate.PopUpFragment">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.guo_m_000.climate.PopUpActivity">
 
     <TextView
-        android:id="@+id/prompt2"
+        android:id="@+id/prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
@@ -13,7 +17,7 @@
         android:text="@string/prompt" />
 
     <EditText
-        android:id="@+id/email_address2"
+        android:id="@+id/email_address"
         android:hint="Email address"
         android:layout_below="@+id/prompt"
         android:layout_width="wrap_content"
@@ -21,7 +25,7 @@
         />
 
     <EditText
-        android:id="@+id/phone_number2"
+        android:id="@+id/phone_number"
         android:hint="Phone number"
         android:inputType="number"
         android:layout_below="@+id/email_address"
@@ -30,7 +34,7 @@
         />
 
     <TextView
-        android:id="@+id/contact_popup2"
+        android:id="@+id/contact_popup"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="6dp"
         android:layout_width="wrap_content"
@@ -40,7 +44,7 @@
         android:layout_below="@id/phone_number"/>
 
     <EditText
-        android:id="@+id/donation_input2"
+        android:id="@+id/donation_input"
         android:layout_width="wrap_content"
         android:hint="What do you have?"
         android:layout_height="wrap_content"
@@ -48,7 +52,7 @@
 
     <Button
         android:id="@+id/next"
-        android:layout_width="wrap_content2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next"
         android:layout_marginTop="2dp"

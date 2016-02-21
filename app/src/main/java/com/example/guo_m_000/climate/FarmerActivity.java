@@ -49,12 +49,16 @@ public class FarmerActivity extends AppCompatActivity {
                 case R.id.create_request:
                     Log.d("warning", "Correct initialization");
                    // Intent intent = new Intent(FarmerActivity.this, PopUpActivity.class);
-                    FragmentManager manager = getFragmentManager();
-                    PopUpFragment popUpFragment = new PopUpFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("auth", authToken);
-                    popUpFragment.setArguments(bundle);
-                    popUpFragment.show(manager, "Test");
+                    //FragmentManager manager = getFragmentManager();
+                    //PopUpFragment popUpFragment = new PopUpFragment();
+                    //Bundle bundle = new Bundle();
+                    //bundle.putString("auth", authToken);
+                    //popUpFragment.setArguments(bundle);
+                   // popUpFragment.show(manager, "Test");
+
+                    Intent intent = new Intent(FarmerActivity.this, PopUpActivity.class);
+                    intent.putExtra("auth", authToken);
+                    startActivity(intent);
                 default:
                     Log.d("error", "Action bar items not being handled");
             }
