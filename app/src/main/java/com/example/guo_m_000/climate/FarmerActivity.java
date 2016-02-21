@@ -12,7 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.guo_m_000.climate.Adapters.OfferListAdapter;
 import com.example.guo_m_000.climate.Data.Offer;
@@ -20,6 +23,7 @@ import com.example.guo_m_000.climate.R;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.TableDeleteCallback;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 
 import java.net.MalformedURLException;
@@ -32,6 +36,7 @@ public class FarmerActivity extends AppCompatActivity {
     MobileServiceTable<Offer> mOfferTable;
 
     Context mContext;
+    String email;
 
     String authToken;
     @Override
@@ -55,9 +60,30 @@ public class FarmerActivity extends AppCompatActivity {
 
         final ListView listView = (ListView)findViewById(R.id.listView);
 
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(MainActivity.SHARED, MODE_PRIVATE);
-        String email = sharedPref.getString("email", "");
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mOfferTable.delete((Offer) listView.getAdapter().getItem(position), new TableDeleteCallback() {
+                    @Override
+                    public void onCompleted(Exception exception, ServiceFilterResponse response) {
+                        if(exception == null){
+                            Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_LONG);
+                            updateList(email, listView);
+                        }
+                    }
+                });
+                return true;
+            }
+        });
 
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(MainActivity.SHARED, MODE_PRIVATE);
+        email = sharedPref.getString("email", "");
+
+        updateList(email, listView);
+
+    }
+
+    public void updateList(String email, final ListView listView){
         mOfferTable.where().field("email").eq(email).execute(new TableQueryCallback<Offer>() {
             @Override
             public void onCompleted(List<Offer> result, int count, Exception exception, ServiceFilterResponse response) {
@@ -70,8 +96,6 @@ public class FarmerActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     @Override
