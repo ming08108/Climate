@@ -8,6 +8,7 @@ public class Offer {
     public String id;
 
     public String foodTypes;
+    public String description;
     public String phone;
 
     public String lat;

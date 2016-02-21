@@ -1,7 +1,9 @@
 package com.example.guo_m_000.climate;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -9,6 +11,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -68,6 +72,23 @@ public class FoodBankActivity extends AppCompatActivity {
         }
 
         final ListView listView = (ListView)findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Offer offer = (Offer)listView.getAdapter().getItem(position);
+
+                AlertDialog alertDialog = new AlertDialog.Builder(FoodBankActivity.this).create();
+                alertDialog.setTitle("Contact Info");
+                alertDialog.setMessage("Phone " + offer.phone);
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
 
         mOfferTable = mClient.getTable(Offer.class);
         try {
