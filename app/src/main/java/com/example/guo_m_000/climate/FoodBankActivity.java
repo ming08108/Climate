@@ -1,9 +1,18 @@
 package com.example.guo_m_000.climate;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,6 +44,24 @@ public class FoodBankActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_bank);
 
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+        // Or use LocationManager.GPS_PROVIDER
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        final Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+
         try {
             mClient = new MobileServiceClient(
                     "https://farmee.azurewebsites.net",
@@ -45,13 +72,37 @@ public class FoodBankActivity extends AppCompatActivity {
         }
 
         final ListView listView = (ListView)findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Offer offer = (Offer)listView.getAdapter().getItem(position);
 
+                AlertDialog alertDialog = new AlertDialog.Builder(FoodBankActivity.this).create();
+                alertDialog.setTitle("Contact Info");
+                alertDialog.setMessage("Phone " + offer.phone);
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
+
+        //populate the listview
+        updateTable(listView, lastKnownLocation);
+
+    }
+
+
+    public void updateTable(final ListView listView, final Location lastKnownLocation){
         mOfferTable = mClient.getTable(Offer.class);
         try {
             mOfferTable.execute(new TableQueryCallback<Offer>() {
                 @Override
                 public void onCompleted(List<Offer> result, int count, Exception exception, ServiceFilterResponse response) {
-                    OfferListAdapter adapter = new OfferListAdapter(mContext, result);
+                    OfferListAdapter adapter = new OfferListAdapter(mContext, result, lastKnownLocation);
                     listView.setAdapter(adapter);
                 }
             });
@@ -59,25 +110,6 @@ public class FoodBankActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
-        final Offer item = new Offer();
-        item.phone = "1234567890";
-        item.foodTypes = "cool beans";
-        item.lat = "1.000";
-        item.lon = "2.000";
-
-        mOfferTable.insert(item, new TableOperationCallback<Offer>() {
-            public void onCompleted(Offer entity, Exception exception, ServiceFilterResponse response) {
-                if (exception == null) {
-                    Toast.makeText(getApplicationContext(), "Added successfully", Toast.LENGTH_LONG).show();
-                    Log.d("azure", "updated");
-                } else {
-                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
-                    Log.d("azure", exception.toString());
-                }
-            }
-        });
     }
 
 }
